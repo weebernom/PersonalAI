@@ -30,9 +30,9 @@ const commands = [
     .setDescription('Switch AI model')
     .addStringOption(opt => opt.setName('name').setDescription('Select the AI model').setRequired(true)
       .addChoices(
-        { name: 'GPT OSS (20B) - Fast', value: 'openai/gpt-oss-20b' },
-        { name: 'GPT OSS (120B) - Smart', value: 'openai/gpt-oss-120b' },
-        { name: 'Mixtral 8x7B', value: 'mixtral-8x7b-32768' }
+        { name: 'GPT OSS 20B (Lightning)', value: 'openai/gpt-oss-20b' },
+        { name: 'GPT OSS 120B (Smart)', value: 'openai/gpt-oss-120b' },
+        { name: 'Llama 3.1 8B (Alternative)', value: 'llama-3.1-8b-instant' }
       )),
   new SlashCommandBuilder()
     .setName('status')

@@ -5,6 +5,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function getCurrentModel(callback) {
   db.get("SELECT value FROM settings WHERE key = 'current_model'", (err, row) => {
+    // Defaulting to the fastest tested production model
     callback(row?.value || 'openai/gpt-oss-20b');
   });
 }
