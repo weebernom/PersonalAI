@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits, Partials, ChannelType, SlashCommandBuilder, REST, Routes, EmbedBuilder } = require('discord.js');
 const db = require('./utils/db');
-const { streamOllama, getCurrentModel } = require('./models/aiRouter');
+const { streamOllama, getCurrentModel, forceModelCacheUpdate } = require('./models/aiRouter');
 const http = require('http');
 
 // Dummy web server to keep Render instance awake
@@ -90,6 +90,11 @@ client.on('interactionCreate', async (interaction) => {
   }
   if (interaction.commandName === 'model') {
     const modelName = interaction.options.getString('name');
+
+    // Instantly update the memory cache to fix the race condition
+    forceModelCacheUpdate(modelName);
+
+    // Backup to database in the background
     db.run("UPDATE settings SET value = ? WHERE key = 'current_model'", [modelName], () => {
       interaction.reply(`🤖 Model switched to: **${modelName}**`);
     });
