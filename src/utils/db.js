@@ -1,7 +1,15 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
-const db = new sqlite3.Database(path.join(__dirname, '../../db/bot.db'));
+const dbDir = path.join(__dirname, '../../db');
+
+// Check if the directory exists, if not, create it
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+const db = new sqlite3.Database(path.join(dbDir, 'bot.db'));
 
 db.serialize(() => {
   db.run(`
@@ -12,7 +20,7 @@ db.serialize(() => {
   `);
   db.run(`
     INSERT OR IGNORE INTO settings (key, value)
-    VALUES ('current_model', 'gemma2:2b')
+    VALUES ('current_model', 'llama3-8b-8192')
   `);
 });
 
