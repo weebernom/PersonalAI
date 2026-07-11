@@ -5,7 +5,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 function getCurrentModel(callback) {
   db.get("SELECT value FROM settings WHERE key = 'current_model'", (err, row) => {
-    callback(row?.value || 'llama3-8b-8192');
+    callback(row?.value || 'openai/gpt-oss-20b');
   });
 }
 
